@@ -1,0 +1,59 @@
+<div id="chatbox" style="">
+    <div  [hidden]="expanded">
+        <div id="message" class="message">
+            <p>{{messages[0]}}</p>
+            <p>{{messages[1]}}</p>
+        </div>
+    </div>
+    <div  [hidden]="expanded">
+        <button (click)="expand()">展开</button>
+    </div>
+    <div  [hidden]="!expanded">
+        <div class="testing">
+            <div id="chat">
+                <div class="sidebar">
+                    <div class="m-card">
+                        <header>
+                            <img class="avatar" width="40" height="40" alt="user.name" src="./dist/images/1.jpg">
+                            <p class="name">{{user.name}}</p>
+                        </header>
+                        <footer>
+                            <input class="search" type="text" placeholder="search user..." v-model="search">
+                        </footer>
+                    </div>
+                    <div class="m-list">
+                        <ul>
+                            <li *ngFor="let room of user.rooms"  [class.active]="room==curRoom" (click)="changeCurRoom(room)">
+                                <img class="avatar"  width="30" height="30" src="./dist/images/1.jpg">
+                                <p class="name">room {{room}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="main">
+                    <div #mess class="m-message">
+                        <ul>
+                            <li *ngFor="let msg of msgs[curRoom]">
+                                <p class="time"><span>{{msg.time}}</span></p>
+                                <div class="main" :class=" {{msg.type}} ">
+                                    <img class="avatar" width="30" height="30" src="./dist/images/1.jpg" *ngIf="msg.type!='sys'" />
+                                    <div  class="name" *ngIf="msg.type!='sys'">{{msg.name}}:</div>
+                                    <div [class.text]="msg.type!='sys'">{{msg.mes}}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="m-text">
+                        <textarea id="comment" placeholder="按 Enter 发送" [(ngModel)]="content" (keyup.enter)="onComment(mess)" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button (click)="leaveRoom()">退出当前房间</button>
+        <input [(ngModel)]="addNum" type="number" title="room">
+        <button (click)="addRoom()">添加</button>
+    </div>
+    <div  [hidden]="!expanded">
+        <button (click)="unexpand()">收起</button>
+    </div>
+</div>
